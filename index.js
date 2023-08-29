@@ -401,7 +401,6 @@ app.put("/password-reset/:id", async (req, res) => {
             { _id: new ObjectId(req.params.id) },
             { $set: { password: hashpassword } }
           );
-          console.log(update);
           if (update) {
             res.json({
               statusCode: 200,

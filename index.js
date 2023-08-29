@@ -406,7 +406,17 @@ app.put("/password-reset/:id", async (req, res) => {
               statusCode: 200,
               message: "Password changed successfully",
             });
+          } else {
+            res.json({
+              statusCode: 401,
+              message: "updated failed",
+            });
           }
+        } else {
+          res.json({
+            statusCode: 402,
+            message: "hashing failed",
+          });
         }
       } else {
         res.json({

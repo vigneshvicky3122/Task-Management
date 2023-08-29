@@ -388,7 +388,7 @@ app.put("/password-reset/:id", async (req, res) => {
   try {
     const Db = Client.db(process.env.DB_NAME);
     let users = await Db.collection(process.env.DB_COLLECTION_ONE)
-      .find({ _id: new ObjectId(parseInt(req.params.id)) })
+      .find({ _id: new ObjectId(req.params.id) })
       .toArray();
     if (users) {
       if (req.body.password === req.body.confirmPassword) {
@@ -398,9 +398,10 @@ app.put("/password-reset/:id", async (req, res) => {
           let update = await Db.collection(
             process.env.DB_COLLECTION_ONE
           ).findOneAndUpdate(
-            { _id: new ObjectId(parseInt(req.params.id)) },
+            { _id: new ObjectId(req.params.id) },
             { $set: { password: hashpassword } }
           );
+          console.log(update);
           if (update) {
             res.json({
               statusCode: 200,

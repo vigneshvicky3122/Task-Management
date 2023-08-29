@@ -94,8 +94,8 @@ app.post("/add-task", authentication, async (req, res) => {
 
     if (Tasks) {
       res.json({
-        statusCode: 401,
-        message: "failed",
+        statusCode: 200,
+        message: "New Task Added",
       });
     } else {
       res.json({

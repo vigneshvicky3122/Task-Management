@@ -153,6 +153,48 @@ function Dashboard() {
       console.error(error);
     }
   }
+  async function Reassign(id) {
+    let update = [...Data];
+    let index = update.findIndex((obj) => obj.id === id);
+
+    update[index].status = "pending";
+    update[index].submittedTime = null;
+    setData(update);
+    try {
+      let result = await axios.put(
+        `${url}/reassign/${id}`,
+        { status: "pending" },
+        {
+          headers: {
+            Authorization: window.localStorage.getItem("app-token"),
+            user_id: window.localStorage.getItem("UserId"),
+          },
+        }
+      );
+      if (result.data.statusCode === 200) {
+        setAlertMessage(result.data.message);
+        const toastLiveExample = document.getElementById("liveToast");
+        const toastBootstrap = Toast.getOrCreateInstance(toastLiveExample);
+        toastBootstrap.show();
+      }
+      if (result.data.statusCode === 401) {
+        setAlertMessage(result.data.message);
+        const toastLiveExample = document.getElementById("liveToast");
+
+        const toastBootstrap = Toast.getOrCreateInstance(toastLiveExample);
+
+        toastBootstrap.show();
+      }
+      if (result.data.statusCode === 400) {
+        navigate("/login");
+      }
+      if (result.data.statusCode === 500) {
+        console.log(result.data.Message);
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  }
   async function DeleteTask(id) {
     let update = [...Data];
     let index = Data.findIndex((obj) => obj.id == id);
@@ -303,6 +345,15 @@ function Dashboard() {
                         </p>
                         {element.status === "completed" ? (
                           <>
+                            <button
+                              className="btn btn-success"
+                              onClick={() => {
+                                Reassign(element.id);
+                              }}
+                            >
+                              Re-Assign
+                            </button>
+                            &nbsp;
                             <button
                               className="btn btn-danger"
                               onClick={() => {

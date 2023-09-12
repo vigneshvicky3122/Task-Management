@@ -153,7 +153,7 @@ app.put("/task-status/:id", authentication, async (req, res) => {
     await Client.close();
   }
 });
-app.put("reassign/:id", authentication, async (req, res) => {
+app.put("/reassign/:id", authentication, async (req, res) => {
   await Client.connect();
   try {
     const db = Client.db(process.env.DB_NAME);

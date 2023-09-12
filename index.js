@@ -233,7 +233,6 @@ app.put("/update-task/:id", authentication, async (req, res) => {
     await Client.close();
   }
 });
-
 app.post("/signup", async (req, res) => {
   await Client.connect();
   try {

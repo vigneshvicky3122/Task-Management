@@ -16,7 +16,7 @@ const authentication = async (req, res, next) => {
 };
 const createToken = async ({ email, name }) => {
   let token = JWT.sign({ email, name }, process.env.SECRET_KEY, {
-    expiresIn: "1h",
+    expiresIn: "365d",
   });
   return token;
 };

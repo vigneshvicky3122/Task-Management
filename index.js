@@ -153,6 +153,46 @@ app.put("/task-status/:id", authentication, async (req, res) => {
     await Client.close();
   }
 });
+app.put("reassign/:id", authentication, async (req, res) => {
+  await Client.connect();
+  try {
+    const db = Client.db(process.env.DB_NAME);
+    let Tasks = await db
+      .collection(process.env.DB_COLLECTION_ONE)
+      .findOneAndUpdate(
+        {
+          _id: new ObjectId(req.headers.user_id),
+          tasks: { $elemMatch: { id: parseInt(req.params.id) } },
+        },
+        {
+          $set: {
+            "tasks.$.status": req.body.status,
+            "tasks.$.submittedTime": null,
+          },
+        }
+      );
+
+    if (Tasks) {
+      res.json({
+        statusCode: 200,
+        message: "Task Re-assigned",
+      });
+    } else {
+      res.json({
+        statusCode: 401,
+        message: "failed",
+      });
+    }
+  } catch (error) {
+    res.json({
+      statusCode: 500,
+      message: "Internal server error",
+      error: error,
+    });
+  } finally {
+    await Client.close();
+  }
+});
 app.put("/update-task/:id", authentication, async (req, res) => {
   await Client.connect();
   try {

@@ -36,7 +36,7 @@ The back-end of this application is built using Node.js. It manages the tasks an
 To set up the back-end:
 
 1. Navigate to the `backend` directory and run `npm install` to install the required dependencies for the Node.js back-end.
-2. Once the installation is finished, run `npm start` to start the Node.js server.
+2. Once the installation is finished, run `nodemon` to start the Node.js server.
 
 Please note that the front-end and back-end need to be running simultaneously for the full functionality of the application.
 
